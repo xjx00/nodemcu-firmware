@@ -18,8 +18,6 @@ install:
 script:
 - lua tools/cross-lua.lua || exit 1
 - export BUILD_DATE=$(date +%Y%m%d)
-- export GIT_TAG=v$BUILD_DATE
-- export GIT_RELTEXT="Auto-released by [Travis-CI build #$TRAVIS_BUILD_NUMBER](https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID)"
 - make EXTRA_CCFLAGS="-DBUILD_DATE='\"'$BUILD_DATE'\"'" all
 - cd bin/
 - file_name_float="nodemcu_float_${TRAVIS_TAG}.bin"
@@ -34,6 +32,6 @@ script:
 - curl -sSL https://github.com/tcnksm/ghr/releases/download/v0.5.4/ghr_v0.5.4_linux_amd64.zip > ghr.zip
 - unzip ghr.zip
 - ./ghr --version
-- ./ghr --debug -u xjx00 -r nodemcu-firmware -b "$GIT_RELTEXT" $GIT_TAG bin/
+- ./ghr --debug -u xjx00 -r nodemcu-firmware -b "release" $BUILD_DATE bin/
 # http://docs.travis-ci.com/user/environment-variables/#Convenience-Variables
 - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash "$TRAVIS_BUILD_DIR"/tools/pr-build.sh; fi
