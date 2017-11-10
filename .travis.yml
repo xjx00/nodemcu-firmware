@@ -31,5 +31,11 @@ script:
 - cd bin/
 - file_name_integer="nodemcu_integer_${TRAVIS_TAG}.bin"
 - srec_cat -output ${file_name_integer} -binary 0x00000.bin -binary -fill 0xff 0x00000 0x10000 0x10000.bin -binary -offset 0x10000
+- export GIT_TAG=v$BUILD_DATE
+- export GIT_RELTEXT="Auto-released by [Travis-CI build #$TRAVIS_BUILD_NUMBER](https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID)"
+- curl -sSL https://github.com/tcnksm/ghr/releases/download/v0.5.4/ghr_v0.5.4_linux_amd64.zip > ghr.zip
+- unzip ghr.zip
+- ./ghr --version
+- ./ghr --debug -u xjx00 -r nodemcu-firmware -b "$GIT_RELTEXT" $GIT_TAG bin/
 # http://docs.travis-ci.com/user/environment-variables/#Convenience-Variables
 - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash "$TRAVIS_BUILD_DIR"/tools/pr-build.sh; fi
