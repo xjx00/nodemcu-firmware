@@ -6,6 +6,7 @@ addons:
     - python-serial
     - srecord
     - lua5.1
+    - unzip
 cache:
   - pip
   - directories:
